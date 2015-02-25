@@ -9,7 +9,6 @@ recordUrl: system/eventlogs/preview/:id
 noRecordsMessage: backend::lang.list.no_records
 recordsPerPage: 30
 showSetup: true
-showCheckboxes: true
 
 toolbar:
     buttons: list_toolbar

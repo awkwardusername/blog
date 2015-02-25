@@ -366,31 +366,12 @@ class FormField
 
     /**
      * Adds any circumstantial attributes to the field based on other
-     * settings, such as the 'disabled' option.
+     * settings, such as the 'trigger' option.
      * @param  array $attributes
      * @param  string $position
      * @return array
      */
     protected function filterAttributes($attributes, $position = 'field')
-    {
-        $position = strtolower($position);
-
-        $attributes = $this->filterTriggerAttributes($attributes, $position);
-
-        if ($position == 'field' && $this->disabled) {
-            $attributes = $attributes + ['disabled' => 'disabled'];
-        }
-
-        return $attributes;
-    }
-
-    /**
-     * Adds attributes used specifically by the TriggerAPI
-     * @param  array $attributes
-     * @param  string $position
-     * @return array
-     */
-    protected function filterTriggerAttributes($attributes, $position = 'field')
     {
         if (!$this->trigger || !is_array($this->trigger))
             return $attributes;

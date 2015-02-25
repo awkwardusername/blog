@@ -10,7 +10,5 @@ return array(
     'JSMin' => $vendorDir . '/linkorb/jsmin-php/src/jsmin-1.1.1.php',
     'JSMinException' => $vendorDir . '/linkorb/jsmin-php/src/jsmin-1.1.1.php',
     'SessionHandlerInterface' => $vendorDir . '/symfony/http-foundation/Symfony/Component/HttpFoundation/Resources/stubs/SessionHandlerInterface.php',
-    'TestCase' => $baseDir . '/tests/TestCase.php',
-    'UiTestCase' => $baseDir . '/tests/UiTestCase.php',
     'lessc' => $vendorDir . '/oyejorge/less.php/lessc.inc.php',
 );

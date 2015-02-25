@@ -5,6 +5,7 @@ return [
     /*
      * Laravel providers
      */
+    'Illuminate\Foundation\Providers\ArtisanServiceProvider',
     'Illuminate\Bus\BusServiceProvider',
     'Illuminate\Cache\CacheServiceProvider',
     'Illuminate\Foundation\Providers\ConsoleSupportServiceProvider',
@@ -24,7 +25,6 @@ return [
     /*
      * October Rain providers
      */
-    'October\Rain\Foundation\Providers\ArtisanServiceProvider',
     'October\Rain\Database\DatabaseServiceProvider',
     'October\Rain\Filesystem\FilesystemServiceProvider',
     'October\Rain\Html\HtmlServiceProvider',

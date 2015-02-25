@@ -51,6 +51,34 @@ class Filesystem extends FilesystemBase
     }
 
     /**
+     * Modify file/folder permissions recursively
+     * @param  string $path
+     * @param  octal $fileMask
+     * @param  octal $directoryMask
+     * @return void
+     */
+    public function chmodRecursive($path, $fileMask, $directoryMask = null)
+    {
+        if (!$this->isDirectory($path))
+            return @chmod($path, $fileMask);
+
+        if (!$directoryMask)
+            $directoryMask = $fileMask;
+
+        $items = new FilesystemIterator($path, FilesystemIterator::SKIP_DOTS);
+        foreach ($items as $item) {
+            if ($item->isDir()) {
+                $_path = $item->getPathname();
+                @chmod($_path, $directoryMask);
+                $this->chmodRecursive($_path, $fileMask, $directoryMask);
+            }
+            else {
+                @chmod($item->getPathname(), $fileMask);
+            }
+        }
+    }
+
+    /**
      * Converts a file size in bytes to human readable format.
      * @param  int $bytes
      * @return string
@@ -187,20 +215,7 @@ class Filesystem extends FilesystemBase
     public function put($path, $contents, $lock = false)
     {
         $result = parent::put($path, $contents, $lock);
-        $this->chmod($path);
-        return $result;
-    }
-
-    /**
-     * Copy a file to a new location.
-     * @param  string  $path
-     * @param  string  $target
-     * @return bool
-     */
-    public function copy($path, $target)
-    {
-        $result = parent::copy($path, $target);
-        $this->chmod($target);
+        if ($mask = $this->getFilePermissions()) @chmod($path, $mask);
         return $result;
     }
 
@@ -217,99 +232,7 @@ class Filesystem extends FilesystemBase
         if ($mask = $this->getFolderPermissions())
             $mode = $mask;
 
-        /*
-         * Find the green leaves
-         */
-        if ($recursive && $mask) {
-            $chmodPath = $path;
-            while (true) {
-                $basePath = dirname($chmodPath);
-                if ($chmodPath == $basePath) break;
-                if ($this->isDirectory($basePath)) break;
-                $chmodPath = $basePath;
-            }
-        }
-        else {
-            $chmodPath = $path;
-        }
-
-        /*
-         * Make the directory
-         */
-        $result = parent::makeDirectory($path, $mode, $recursive, $force);
-
-        /*
-         * Apply the permissions
-         */
-        if ($mask) {
-            $this->chmod($chmodPath, $mask);
-
-            if ($recursive) {
-                $this->chmodRecursive($chmodPath, null, $mask);
-            }
-        }
-
-        return $result;
-    }
-
-    /**
-     * Modify file/folder permissions
-     * @param  string $path
-     * @param  octal $fileMask
-     * @param  octal $directoryMask
-     * @return void
-     */
-    public function chmod($path, $mask = null)
-    {
-        if (!$mask) {
-            $mask = $this->isDirectory($path)
-                ? $this->getFolderPermissions()
-                : $this->getFilePermissions();
-        }
-
-        if (!$mask) {
-            return;
-        }
-
-        return @chmod($path, $mask);
-    }
-
-    /**
-     * Modify file/folder permissions recursively
-     * @param  string $path
-     * @param  octal $fileMask
-     * @param  octal $directoryMask
-     * @return void
-     */
-    public function chmodRecursive($path, $fileMask = null, $directoryMask = null)
-    {
-        if (!$fileMask) {
-            $fileMask = $this->getFilePermissions();
-        }
-
-        if (!$directoryMask) {
-            $directoryMask = $this->getFolderPermissions() ?: $fileMask;
-        }
-
-        if (!$fileMask) {
-            return;
-        }
-
-        if (!$this->isDirectory($path)) {
-            return $this->chmod($path, $fileMask);
-        }
-
-        $items = new FilesystemIterator($path, FilesystemIterator::SKIP_DOTS);
-        foreach ($items as $item) {
-            if ($item->isDir()) {
-                $_path = $item->getPathname();
-                $this->chmod($_path, $directoryMask);
-                $this->chmodRecursive($_path, $fileMask, $directoryMask);
-            }
-            else {
-                $this->chmod($item->getPathname(), $fileMask);
-            }
-        }
+        return parent::makeDirectory($path, $mode, $recursive, $force);
     }
 
     /**

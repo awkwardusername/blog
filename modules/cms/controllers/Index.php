@@ -97,9 +97,7 @@ class Index extends Controller
 
         // Preload Ace editor modes explicitly, because they could be changed dynamically
         // depending on a content block type
-        $this->addJs('/modules/backend/formwidgets/codeeditor/assets/vendor/emmet/emmet.js', 'core');
         $this->addJs('/modules/backend/formwidgets/codeeditor/assets/vendor/ace/ace.js', 'core');
-        $this->addJs('/modules/backend/formwidgets/codeeditor/assets/vendor/ace/ext-emmet.js', 'core');
 
         $aceModes = ['markdown', 'plain_text', 'html', 'less', 'css', 'scss', 'sass', 'javascript'];
         foreach ($aceModes as $mode) {

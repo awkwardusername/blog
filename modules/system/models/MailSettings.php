@@ -11,8 +11,6 @@ use Model;
  */
 class MailSettings extends Model
 {
-    use \October\Rain\Database\Traits\Validation;
-
     public $implement = ['System.Behaviors.SettingsModel'];
 
     public $settingsCode = 'system_mail_settings';
@@ -24,14 +22,6 @@ class MailSettings extends Model
     const MODE_SMTP     = 'smtp';
     const MODE_MAILGUN  = 'mailgun';
     const MODE_MANDRILL = 'mandrill';
-
-    /*
-     * Validation rules
-     */ 
-    public $rules = [
-        'sender_name'  => 'required',
-        'sender_email' => 'required|email'
-    ];
 
     public function initSettingsData()
     {

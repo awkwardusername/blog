@@ -1,7 +1,7 @@
 <?php namespace October\Rain\Auth;
 
 use Config;
-use October\Rain\Exception\ApplicationException;
+use October\Rain\Exception\ExceptionBase;
 
 /**
  * Used when user authentication fails. Implements a softer error message.
@@ -9,7 +9,7 @@ use October\Rain\Exception\ApplicationException;
  * @package october\auth
  * @author Alexey Bobkov, Samuel Georges
  */
-class AuthException extends ApplicationException
+class AuthException extends ExceptionBase
 {
     /**
      * @var boolean Use less specific error messages.

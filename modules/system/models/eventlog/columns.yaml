@@ -16,4 +16,3 @@ columns:
         searchable: yes
         type: partial
         path: message_column
-        cssClass: column-break-word

@@ -219,8 +219,7 @@ class User extends Model
             $this->activation_code = null;
             $this->is_activated = true;
             $this->activated_at = $this->freshTimestamp();
-            $this->forceSave();
-            return true;
+            return $this->forceSave();
         }
 
         return false;
