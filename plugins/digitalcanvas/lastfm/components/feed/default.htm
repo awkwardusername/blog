@@ -1,0 +1,5 @@
+<ol>
+{% for feed in feeds %}
+	<li><a href="{{ feed.url }}">{{ feed.name }}</a> by {{ feed.artist }}</li>
+{% endfor %}
+</ol>
